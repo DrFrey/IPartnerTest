@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">IPartnerTest</string>
+    <string name="add_record">add record</string>
+    <string name="error_no_internet">Check your internet connection</string>
+    <string name="preferences_file_name">shared_prefs</string>
+    <string name="session_key">SESSION_KEY</string>
+    <string name="add">Add</string>
+    <string name="cancel">Cancel</string>
+    <string name="added_on">Added on:\u0020</string>
+    <string name="modified_on">Modified on:\u0020</string>
+</resources>
