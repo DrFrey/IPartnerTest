@@ -1,7 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-</RelativeLayout>
+    <data>
+        <variable
+            name="entry"
+            type="com.example.ipartnertest.data.Entry" />
+        <import type="android.view.View"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/date_created_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/added_on"
+            android:textAppearance="?attr/textAppearanceBody2"
+            android:textColor="?android:attr/textColorSecondary"
+            app:layout_constraintBottom_toTopOf="@id/date_modified_title"
+            app:layout_constraintEnd_toStartOf="@id/date_created"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Added on: " />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/date_created"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@id/date_modified"
+            app:layout_constraintStart_toEndOf="@id/date_created_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:textAppearance="?attr/textAppearanceBody2"
+            android:textColor="?android:attr/textColorSecondary"
+            app:convertDate="@{entry.da}"
+            tools:text="date created" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/date_modified_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@id/body"
+            app:layout_constraintEnd_toStartOf="@id/date_modified"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/date_created_title"
+            android:textAppearance="?attr/textAppearanceBody2"
+            android:textColor="?android:attr/textColorSecondary"
+            android:text="@string/modified_on"
+            android:visibility="@{!entry.da.equals(entry.dm) ? View.VISIBLE : View.GONE}"
+            tools:text="Modified on: " />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/date_modified"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@id/body"
+            app:layout_constraintStart_toEndOf="@id/date_modified_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/date_created"
+            android:textAppearance="?attr/textAppearanceBody2"
+            android:textColor="?android:attr/textColorSecondary"
+            android:visibility="@{!entry.da.equals(entry.dm) ? View.VISIBLE : View.GONE}"
+            app:convertDate="@{entry.dm}"
+            tools:text="date modified" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/body"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/date_modified_title"
+            android:textAppearance="?attr/textAppearanceBody2"
+            android:textColor="?android:attr/textColorSecondary"
+            android:paddingTop="5dp"
+            android:scrollbars="vertical"
+            android:fadeScrollbars="true"
+            android:text="@{entry.body}"
+
+            tools:text="body" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

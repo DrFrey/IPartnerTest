@@ -5,11 +5,9 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import android.util.Log
-import androidx.annotation.Nullable
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.*
-import com.example.ipartnertest.data.EntriesResponse
-import com.example.ipartnertest.data.Response
+import com.example.ipartnertest.data.Entry
 import kotlinx.coroutines.launch
 import java.lang.Exception
 import java.lang.IllegalArgumentException
@@ -31,14 +29,15 @@ class RecordsListViewModel(private val refContext: WeakReference<Context>) : Vie
     val error: LiveData<String>
         get() = _error
 
-    private val _entries = MutableLiveData<List<EntriesResponse.Entry>>()
-    val entries: LiveData<List<EntriesResponse.Entry>>
+    private val _entries = MutableLiveData<List<Entry>>()
+    val entries: LiveData<List<Entry>>
         get() = _entries
 
     init {
         _sessionObtained.value = false
     }
 
+    // Retrieve new session id at first launch.
     fun newSession() {
         if (isInternetAvailable()) {
             try {
@@ -70,6 +69,7 @@ class RecordsListViewModel(private val refContext: WeakReference<Context>) : Vie
         }
     }
 
+    // Retrieve the list of entries
     fun getEntries() {
         if (isInternetAvailable()) {
             try {
@@ -77,7 +77,7 @@ class RecordsListViewModel(private val refContext: WeakReference<Context>) : Vie
                     _isLoading.value = true
                     val response =
                         TestServerService.retrofitService.getEntries(session = session)
-                    _entries.value = response.data?.get(0) as List<EntriesResponse.Entry>?
+                    _entries.value = response.data?.get(0) as List<Entry>?
                     Log.d("___", "entries: ${_entries.value}")
                     _isLoading.value = false
                 }
@@ -98,6 +98,7 @@ class RecordsListViewModel(private val refContext: WeakReference<Context>) : Vie
         }
     }
 
+    // Add new entry
     fun addEntry(newEntryData: String) {
         if (isInternetAvailable()) {
             try {
@@ -130,6 +131,7 @@ class RecordsListViewModel(private val refContext: WeakReference<Context>) : Vie
         }
     }
 
+    // Check whether internet connection is present
     private fun isInternetAvailable(): Boolean {
         var result = false
         val connectivityManager =

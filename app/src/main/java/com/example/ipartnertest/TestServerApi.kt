@@ -12,6 +12,8 @@ import retrofit2.http.Headers
 import retrofit2.http.POST
 
 private const val TOKEN = "w8cNdIR-iH-yvrj5RH"
+
+//Using http instead of https because otherwise we receive certificate exception
 private const val BASE_URL = "http://bnet.i-partner.ru/"
 
 val interceptor = HttpLoggingInterceptor()

@@ -27,6 +27,9 @@
         <action
             android:id="@+id/action_recordFragment_to_recordsListFragment"
             app:destination="@id/recordsListFragment" />
+        <argument
+            android:name="entryDetails"
+            app:argType="com.example.ipartnertest.data.Entry" />
     </fragment>
     <fragment
         android:id="@+id/addEntryFragment"

@@ -1,6 +1,5 @@
 package com.example.ipartnertest.data
 
-import android.util.Log
 import androidx.databinding.BindingAdapter
 import com.google.android.material.textview.MaterialTextView
 import java.time.Instant

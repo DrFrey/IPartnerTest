@@ -6,7 +6,7 @@
     <data>
         <variable
             name="entry"
-            type="com.example.ipartnertest.data.EntriesResponse.Entry" />
+            type="com.example.ipartnertest.data.Entry" />
         <import type="android.view.View"/>
     </data>
 

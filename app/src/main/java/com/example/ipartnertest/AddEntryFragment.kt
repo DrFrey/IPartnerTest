@@ -31,9 +31,7 @@ class AddEntryFragment : Fragment() {
                         "Yes"
                     ) { _, _ ->
                         findNavController().navigate(
-                            AddEntryFragmentDirections.actionCancelEntry(
-                                null
-                            )
+                            AddEntryFragmentDirections.actionCancelEntry(null)
                         )
                     }
                     .setNegativeButton("No") { dialog, _ -> dialog.dismiss() }

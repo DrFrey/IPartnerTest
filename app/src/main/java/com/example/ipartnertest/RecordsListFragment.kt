@@ -10,16 +10,15 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.example.ipartnertest.data.EntriesResponse
 import com.example.ipartnertest.databinding.RecordsListFragmentBinding
 import com.google.android.material.snackbar.Snackbar
 import java.lang.ref.WeakReference
 
-class RecordsListFragment : Fragment() {
+class RecordsListFragment : Fragment(), RecordsAdapter.OnItemClickListener {
 
     private lateinit var refContext: WeakReference<Context>
     private lateinit var adapter: RecordsAdapter
-
-    private val args: RecordsListFragmentArgs by navArgs()
 
     private val viewModel: RecordsListViewModel by viewModels {
         RecordsListViewModelFactory(refContext)
@@ -33,6 +32,7 @@ class RecordsListFragment : Fragment() {
         val binding = RecordsListFragmentBinding.inflate(inflater)
         refContext = WeakReference(requireContext())
 
+        //Check if it is the first launch. If no session is present in shared_prefs, get a new session and save it.
         val sharedPref = requireContext().getSharedPreferences(
             getString(R.string.preferences_file_name),
             Context.MODE_PRIVATE
@@ -52,6 +52,7 @@ class RecordsListFragment : Fragment() {
             }
         })
 
+        //Assign adapter with the list of records.
         adapter = RecordsAdapter()
         binding.recyclerview.adapter = adapter
         viewModel.entries.observe(viewLifecycleOwner, {
@@ -64,20 +65,29 @@ class RecordsListFragment : Fragment() {
                     .show()
             }
         })
+        adapter.setOnItemClickListener(this)
 
+        //Add a new entry and check the returned arguments. If the arguments contain a new record, add it to the list.
+        //Clear the arguments afterwards.
         binding.addRecord.setOnClickListener {
             findNavController().navigate(RecordsListFragmentDirections.actionRecordsListFragmentToAddEntryFragment())
         }
+
+        val args = RecordsListFragmentArgs.fromBundle(requireArguments())
         if (!args.newEntryData.isNullOrEmpty()) {
             viewModel.addEntry(args.newEntryData.toString())
+            arguments?.clear()
         }
 
+
+        //Check if there are any errors and display them.
         viewModel.error.observe(viewLifecycleOwner, {
             if (it.isNotEmpty()) {
                 Snackbar.make(binding.recordsListFragment, it, Snackbar.LENGTH_SHORT).show()
             }
         })
 
+        //Display progressbar.
         viewModel.isLoading.observe(viewLifecycleOwner, {
             if (it == true) {
                 binding.progressCircular.visibility = View.VISIBLE
@@ -87,5 +97,14 @@ class RecordsListFragment : Fragment() {
         })
 
         return binding.root
+    }
+
+    override fun onItemClick(position: Int) {
+        val entry = viewModel.entries.value?.get(position)
+        entry?.let {
+            findNavController().navigate(
+                RecordsListFragmentDirections.actionRecordsListFragmentToRecordFragment(it)
+            )
+        }
     }
 }
