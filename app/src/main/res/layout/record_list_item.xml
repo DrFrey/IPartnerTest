@@ -27,7 +27,7 @@
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/date_created_title"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:text="@string/added_on"
                 android:textAppearance="?attr/textAppearanceBody2"
                 android:textColor="?android:attr/textColorSecondary"
@@ -35,6 +35,7 @@
                 app:layout_constraintEnd_toStartOf="@id/date_created"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                android:gravity="top"
                 tools:text="Added on: " />
 
             <com.google.android.material.textview.MaterialTextView
@@ -53,11 +54,12 @@
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/date_modified_title"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 app:layout_constraintBottom_toTopOf="@id/body"
                 app:layout_constraintEnd_toStartOf="@id/date_modified"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/date_created_title"
+                android:gravity="top"
                 android:textAppearance="?attr/textAppearanceBody2"
                 android:textColor="?android:attr/textColorSecondary"
                 android:text="@string/modified_on"

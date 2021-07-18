@@ -18,11 +18,12 @@
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/date_created_title"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:gravity="top"
             android:text="@string/added_on"
             android:textAppearance="?attr/textAppearanceBody2"
             android:textColor="?android:attr/textColorSecondary"
-            app:layout_constraintBottom_toTopOf="@id/date_modified_title"
+            app:layout_constraintBottom_toBottomOf="@id/date_created"
             app:layout_constraintEnd_toStartOf="@id/date_created"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -44,8 +45,9 @@
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/date_modified_title"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@id/body"
+            android:layout_height="0dp"
+            android:gravity="top"
+            app:layout_constraintBottom_toBottomOf="@id/date_modified"
             app:layout_constraintEnd_toStartOf="@id/date_modified"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/date_created_title"
@@ -71,7 +73,7 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/body"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

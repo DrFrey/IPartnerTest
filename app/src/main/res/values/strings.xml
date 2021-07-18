@@ -8,4 +8,5 @@
     <string name="cancel">Cancel</string>
     <string name="added_on">Added on:\u0020</string>
     <string name="modified_on">Modified on:\u0020</string>
+    <string name="empty_list_message">No entries yet, click the button to add one.</string>
 </resources>

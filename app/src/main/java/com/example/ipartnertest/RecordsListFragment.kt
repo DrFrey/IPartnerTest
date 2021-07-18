@@ -55,14 +55,13 @@ class RecordsListFragment : Fragment(), RecordsAdapter.OnItemClickListener {
         //Assign adapter with the list of records.
         adapter = RecordsAdapter()
         binding.recyclerview.adapter = adapter
+
         viewModel.entries.observe(viewLifecycleOwner, {
             adapter.submitList(it)
             if (it.isEmpty()) {
-                AlertDialog.Builder(requireContext())
-                    .setTitle("No entries yet")
-                    .setMessage("Click the button below to add a new entry")
-                    .setPositiveButton("Ok") { dialog, _ -> dialog.dismiss() }
-                    .show()
+                binding.emptyListText.visibility = View.VISIBLE
+            } else {
+                binding.emptyListText.visibility = View.GONE
             }
         })
         adapter.setOnItemClickListener(this)
@@ -72,7 +71,6 @@ class RecordsListFragment : Fragment(), RecordsAdapter.OnItemClickListener {
         binding.addRecord.setOnClickListener {
             findNavController().navigate(RecordsListFragmentDirections.actionRecordsListFragmentToAddEntryFragment())
         }
-
         val args = RecordsListFragmentArgs.fromBundle(requireArguments())
         if (!args.newEntryData.isNullOrEmpty()) {
             viewModel.addEntry(args.newEntryData.toString())
