@@ -1,12 +1,12 @@
-package com.example.ipartnertest
+package com.example.ipartnertest.ui
 
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import android.util.Log
-import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.*
+import com.example.ipartnertest.TestServerService
 import com.example.ipartnertest.data.Entry
 import kotlinx.coroutines.launch
 import java.lang.Exception
@@ -35,11 +35,13 @@ class RecordsListViewModel(private val refContext: WeakReference<Context>) : Vie
 
     init {
         _sessionObtained.value = false
+        _isLoading.value = false
     }
 
     // Retrieve new session id at first launch.
     fun newSession() {
         if (isInternetAvailable()) {
+            _error.value = ""
             try {
                 viewModelScope.launch {
                     val response = TestServerService.retrofitService.newSession()
@@ -47,7 +49,6 @@ class RecordsListViewModel(private val refContext: WeakReference<Context>) : Vie
                         session = response.data?.session ?: ""
                         Log.d("___", "session : $session")
                         _sessionObtained.value = true
-                        _error.value = ""
                         getEntries()
                     } else {
                         _error.value = response.error ?: "Unknown error"
@@ -58,13 +59,7 @@ class RecordsListViewModel(private val refContext: WeakReference<Context>) : Vie
                 Log.d("___", "error: ${_error.value}")
             }
         } else {
-            AlertDialog.Builder(refContext.get()!!)
-                .setTitle("No Internet")
-                .setMessage("Check your internet connection and try again")
-                .setPositiveButton(
-                    "Refresh"
-                ) { _, _ -> newSession() }
-                .show()
+            _error.value = "No internet"
             Log.d("___", "Check your internet connection")
         }
     }
@@ -72,13 +67,19 @@ class RecordsListViewModel(private val refContext: WeakReference<Context>) : Vie
     // Retrieve the list of entries
     fun getEntries() {
         if (isInternetAvailable()) {
+            _error.value = ""
             try {
                 viewModelScope.launch {
                     _isLoading.value = true
                     val response =
                         TestServerService.retrofitService.getEntries(session = session)
-                    _entries.value = response.data?.get(0) as List<Entry>?
-                    Log.d("___", "entries: ${_entries.value}")
+                    if (response.status == 1) {
+                        _entries.value = response.data?.get(0) as List<Entry>?
+                        Log.d("___", "entries: ${_entries.value}")
+                    } else {
+                        _error.value = response.error ?: "Unknown error"
+                        Log.d("___", "error: ${_error.value}")
+                    }
                     _isLoading.value = false
                 }
             } catch (e: Exception) {
@@ -87,20 +88,16 @@ class RecordsListViewModel(private val refContext: WeakReference<Context>) : Vie
                 _isLoading.value = false
             }
         } else {
-            AlertDialog.Builder(refContext.get()!!)
-                .setTitle("No Internet")
-                .setMessage("Check your internet connection and try again")
-                .setPositiveButton(
-                    "Refresh"
-                ) { _, _ -> getEntries() }
-                .show()
+           _error.value = "No internet"
             Log.d("___", "Check your internet connection")
+            _isLoading.value = false
         }
     }
 
     // Add new entry
     fun addEntry(newEntryData: String) {
         if (isInternetAvailable()) {
+            _error.value = ""
             try {
                 viewModelScope.launch {
                     val response = TestServerService.retrofitService.addEntry(
@@ -120,13 +117,7 @@ class RecordsListViewModel(private val refContext: WeakReference<Context>) : Vie
                 Log.d("___", "error: ${_error.value}")
             }
         } else {
-            AlertDialog.Builder(refContext.get()!!)
-                .setTitle("No Internet")
-                .setMessage("Check your internet connection and try again")
-                .setPositiveButton(
-                    "Try again"
-                ) { _, _ -> addEntry(newEntryData) }
-                .show()
+            _error.value = "No internet"
             Log.d("___", "Check your internet connection")
         }
     }

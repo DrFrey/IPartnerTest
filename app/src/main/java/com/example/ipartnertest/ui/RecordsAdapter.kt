@@ -1,4 +1,4 @@
-package com.example.ipartnertest
+package com.example.ipartnertest.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

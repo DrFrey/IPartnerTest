@@ -11,7 +11,9 @@ data class EntriesResponse(
     @SerializedName("data")
     val `data`: List<List<Entry?>?>?,
     @SerializedName("status")
-    val status: Int?
+    val status: Int?,
+    @SerializedName("error")
+    val error: String?
 )
 
 @Parcelize

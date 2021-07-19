@@ -1,4 +1,4 @@
-package com.example.ipartnertest
+package com.example.ipartnertest.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -22,7 +22,11 @@ class AddEntryFragment : Fragment() {
         binding.addButton.setOnClickListener {
             val text = binding.newEntryText.text.toString()
             if (text.isNotEmpty()) {
-                findNavController().navigate(AddEntryFragmentDirections.actionAddEntry(text))
+                findNavController().navigate(
+                    AddEntryFragmentDirections.actionAddEntry(
+                        text
+                    )
+                )
             } else {
                 AlertDialog.Builder(requireContext())
                     .setTitle("Empty entry")
@@ -31,7 +35,9 @@ class AddEntryFragment : Fragment() {
                         "Yes"
                     ) { _, _ ->
                         findNavController().navigate(
-                            AddEntryFragmentDirections.actionCancelEntry(null)
+                            AddEntryFragmentDirections.actionCancelEntry(
+                                null
+                            )
                         )
                     }
                     .setNegativeButton("No") { dialog, _ -> dialog.dismiss() }

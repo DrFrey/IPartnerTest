@@ -13,13 +13,13 @@ data class Response(
     val `data`: Data?,
     @SerializedName("error")
     val error: String?
-) {
-    data class Data(
-        @SerializedName("id")
-        val id: String?,
-        @SerializedName("result")
-        val result: Boolean?,
-        @SerializedName("session")
-        val session: String
-    )
-}
+)
+
+data class Data(
+    @SerializedName("id")
+    val id: String?,
+    @SerializedName("result")
+    val result: Boolean?,
+    @SerializedName("session")
+    val session: String
+)

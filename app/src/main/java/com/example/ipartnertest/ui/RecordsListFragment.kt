@@ -1,4 +1,4 @@
-package com.example.ipartnertest
+package com.example.ipartnertest.ui
 
 import android.content.Context
 import android.os.Bundle
@@ -9,8 +9,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
-import com.example.ipartnertest.data.EntriesResponse
+import com.example.ipartnertest.R
 import com.example.ipartnertest.databinding.RecordsListFragmentBinding
 import com.google.android.material.snackbar.Snackbar
 import java.lang.ref.WeakReference
@@ -81,7 +80,18 @@ class RecordsListFragment : Fragment(), RecordsAdapter.OnItemClickListener {
         //Check if there are any errors and display them.
         viewModel.error.observe(viewLifecycleOwner, {
             if (it.isNotEmpty()) {
-                Snackbar.make(binding.recordsListFragment, it, Snackbar.LENGTH_SHORT).show()
+                if (it.equals("No internet")) {
+                    AlertDialog.Builder(requireContext())
+                        .setTitle("No Internet")
+                        .setMessage("Check your internet connection and try again")
+                        .setPositiveButton(
+                            "Refresh"
+                        ) { _, _ ->
+                            viewModel.getEntries() }
+                        .show()
+                } else {
+                    Snackbar.make(binding.recordsListFragment, it, Snackbar.LENGTH_SHORT).show()
+                }
             }
         })
 
@@ -101,7 +111,9 @@ class RecordsListFragment : Fragment(), RecordsAdapter.OnItemClickListener {
         val entry = viewModel.entries.value?.get(position)
         entry?.let {
             findNavController().navigate(
-                RecordsListFragmentDirections.actionRecordsListFragmentToRecordFragment(it)
+                RecordsListFragmentDirections.actionRecordsListFragmentToRecordFragment(
+                    it
+                )
             )
         }
     }

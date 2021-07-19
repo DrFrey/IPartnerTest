@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/recordsListFragment"
-        android:name="com.example.ipartnertest.RecordsListFragment"
+        android:name="com.example.ipartnertest.ui.RecordsListFragment"
         android:label="RecordsListFragment" >
         <action
             android:id="@+id/action_recordsListFragment_to_recordFragment"
@@ -22,7 +22,7 @@
     </fragment>
     <fragment
         android:id="@+id/recordFragment"
-        android:name="com.example.ipartnertest.RecordFragment"
+        android:name="com.example.ipartnertest.ui.RecordFragment"
         android:label="RecordFragment" >
         <action
             android:id="@+id/action_recordFragment_to_recordsListFragment"
@@ -33,7 +33,7 @@
     </fragment>
     <fragment
         android:id="@+id/addEntryFragment"
-        android:name="com.example.ipartnertest.AddEntryFragment"
+        android:name="com.example.ipartnertest.ui.AddEntryFragment"
         android:label="AddEntryFragment" >
         <action
             android:id="@+id/action_addEntry"
